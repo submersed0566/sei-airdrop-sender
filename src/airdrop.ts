@@ -2,9 +2,8 @@ import { DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { PromisePool } from "@supercharge/promise-pool";
 import * as fsPromise from "fs/promises";
-import { readWalletsFile } from "./fileReader";
+import { readWalletsFile } from "./file-reader";
 
-const wallets: string[] = await readWalletsFile();
 const privateKey = process.env.TOKEN_HOLDER_PRIVATE_KEY as string;
 const signer = await DirectSecp256k1Wallet.fromKey(
   new Uint8Array(
@@ -31,7 +30,9 @@ const fee = {
   gas: "200000",
 };
 
-async function airdrop() {
+export async function airdrop() {
+  const wallets: string[] = await readWalletsFile();
+
   const received: string[] = [];
   await PromisePool.withConcurrency(5)
     .for(wallets)
@@ -52,5 +53,3 @@ async function airdrop() {
   await fsPromise.writeFile("didnt_receive.txt", errors.join("\n"));
   await fsPromise.writeFile("received.txt", received.join("\n"));
 }
-
-airdrop();

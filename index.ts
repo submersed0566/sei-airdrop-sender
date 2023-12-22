@@ -1,1 +1,3 @@
-console.log("Hello via Bun!");
+import { airdrop } from "./src/airdrop";
+
+await airdrop();
