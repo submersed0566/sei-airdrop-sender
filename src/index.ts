@@ -5,7 +5,7 @@ import * as fsPromise from "fs/promises";
 import { readWalletsFile } from "./fileReader";
 
 const wallets: string[] = await readWalletsFile();
-const privateKey = process.env.PRIVATE_KEY as string;
+const privateKey = process.env.TOKEN_HOLDER_PRIVATE_KEY as string;
 const signer = await DirectSecp256k1Wallet.fromKey(
   new Uint8Array(
     privateKey.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
@@ -13,7 +13,7 @@ const signer = await DirectSecp256k1Wallet.fromKey(
   "sei"
 );
 const walletAddress = (await signer.getAccounts())[0].address;
-const contractAddress = process.env.CONTRACT_ADDRESS as string;
+const contractAddress = process.env.TOKEN_CONTRACT_ADDRESS as string;
 const rpcEndpoint = process.env.RPC_ENDPOINT as string;
 
 const client = await SigningCosmWasmClient.connectWithSigner(
