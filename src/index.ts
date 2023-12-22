@@ -1,33 +1,10 @@
 import { DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { PromisePool } from "@supercharge/promise-pool";
-import readline from "readline";
-import * as fs from "fs";
 import * as fsPromise from "fs/promises";
+import { readWalletsFile } from "./fileReader";
 
-const fileStream = fs.createReadStream("./wallets.txt");
-const rl = readline.createInterface({
-  input: fileStream,
-  crlfDelay: Infinity,
-});
-
-const wallets: string[] = [];
-await new Promise((resolve, reject) => {
-  rl.on("line", (line) => {
-    wallets.push(line.trim());
-  });
-
-  rl.on("close", () => {
-    console.log("Finished reading the file.");
-    resolve(true);
-  });
-
-  rl.on("error", (err) => {
-    console.error(err);
-    reject(false);
-  });
-});
-
+const wallets: string[] = await readWalletsFile();
 const privateKey = process.env.PRIVATE_KEY as string;
 const signer = await DirectSecp256k1Wallet.fromKey(
   new Uint8Array(
