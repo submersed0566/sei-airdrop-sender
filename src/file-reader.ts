@@ -1,29 +1,13 @@
-import readline from "readline";
-import fs from "fs";
+import LineByLine from "n-readlines";
 
-const fileStream = fs.createReadStream("../wallets.txt");
-const rl = readline.createInterface({
-  input: fileStream,
-  crlfDelay: Infinity,
-});
+const liner = new LineByLine("./wallets.txt");
 
 export async function readWalletsFile() {
   const wallets: string[] = [];
-  await new Promise((resolve, reject) => {
-    rl.on("line", (line) => {
-      wallets.push(line.trim());
-    });
-
-    rl.on("close", () => {
-      console.log("Finished reading the file.");
-      resolve(true);
-    });
-
-    rl.on("error", (err) => {
-      console.error(err);
-      reject(false);
-    });
-  });
+  let line;
+  while ((line = liner.next())) {
+    wallets.push(line.toString("utf8").trim());
+  }
 
   return wallets;
 }
