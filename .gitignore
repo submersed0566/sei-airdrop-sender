@@ -1,6 +1,10 @@
 # Based on https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore
 
 # Logs
+wallets.txt
+didnt_receive.txt
+received.txt
+errors.txt
 
 logs
 _.log
