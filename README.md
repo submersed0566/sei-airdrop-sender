@@ -3,7 +3,7 @@
 To install dependencies:
 
 ```bash
-bun install
+npm install
 ```
 
 **Creating a .env File**
@@ -17,7 +17,7 @@ Example .env file:
 ```
 RPC_ENDPOINT=
 TOKEN_CONTRACT_ADDRESS=
-AMOUNT=1000000
+AMOUNT=
 TOKEN_HOLDER_PRIVATE_KEY=
 ```
 
@@ -38,7 +38,5 @@ Fill in the TOKEN_HOLDER_PRIVATE_KEY with the private key of the token holder. E
 To run:
 
 ```bash
-bun start
+npm start
 ```
-
-This project was created using `bun init` in bun v1.0.0. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
